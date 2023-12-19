@@ -37,6 +37,10 @@ The Bitcoin Historic Service Provider is a service designed to provide historica
 - `Grafana`
 - `Prometheus`
 
+### 1.3 CICD (Build and Deployment)
+Repositories on github are configured with the github workflow
+(actions) and whenever any commit is getting pushed to any particular repo
+it will trigger the build (build and the docker image and publish it to dockerhub)
 
 ## 2. ****Architecture Overview****
 
