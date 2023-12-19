@@ -54,6 +54,10 @@ we can find the complete architecture of the application
 6. User requests, handled by the Gateway, are authenticated with an Okta server.
 7. The Gateway retrieves service details from Eureka Server and forwards requests to the appropriate microservice.
 
+## Sequential Diagram
+
+![Untitled](/diagrams/historic_bitcoin.png)
+
 The key components of the application are as follows:
 
 ### 2.1 BitCoin Historic Price Provider Service
