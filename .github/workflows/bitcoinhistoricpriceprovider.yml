@@ -24,7 +24,7 @@ jobs:
 
       - name: Grant execute permissions to mvnw
         run: |
-          cd Config-Server
+          cd bitcoin-historic-price-provider
           chmod +x mvnw
 
       - name: Docker login
