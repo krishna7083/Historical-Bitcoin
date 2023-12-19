@@ -34,4 +34,6 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and Push Docker Image
-        run: mvn compile jib:build
+        run: |
+          cd bitcoin-historic-price-provider
+          mvn compile jib:build
