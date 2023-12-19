@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  configserver:
+    image: krushnaoza/configserver:latest
+    ports:
+      - "8072:8072"
+    networks:
+      - bitcoinnetwork
+
+  bitcoin-historic-price-provider:
+    image: krushnaoza/bpiservice:latest
+    ports:
+      - "8081:8081"
+    networks:
+      - bitcoinnetwork
+    depends_on:
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+        window: 120s
+    environment:
+      SPRING_APPLICATION_NAME: bitcoin-historic-price-provider
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8072/
+
+networks:
+  bitcoinnetwork:

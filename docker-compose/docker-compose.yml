@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  configserver:
+    image: "krushnaoza/configserver:1.0.0"
+    ports:
+      - "8071:8071"
+    networks:
+      - forecast
+    environment:
+      SPRING_PROFILES_ACTIVE: default
+
+  bitcoin-historic-price-provider:
+    image: "krushnaoza/bitcoin-historic-price-provider:1.0.0"
+    ports:
+      - "8081:8081"
+    networks:
+      - forecast
+    depends_on:
+      - configserver
+    environment:
+      SPRING_APPLICATION_NAME: bitcoin-historic-price-provider
+      SPRING_PROFILES_ACTIVE: default
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+
+networks:
+  forecast:
