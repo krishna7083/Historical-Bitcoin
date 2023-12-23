@@ -35,7 +35,7 @@ public class BitCoinHistoricPriceProviderController {
      * @return A message indicating the success of data processing.
      */
     @PostMapping(APIConstants.RETRIEVE_BITCOIN_PRICES)
-    private ResponseEntity<BitCoinPricesIndexResponse> retrieveBitcoinPrices(
+    public ResponseEntity<BitCoinPricesIndexResponse> retrieveBitcoinPrices(
             @Valid @RequestBody BitCoinPricesIndexRequest bitCoinPricesIndexRequest){
         return new ResponseEntity<BitCoinPricesIndexResponse>(bitCoinHistoricPriceProviderService.
                         getBPIHistoric(bitCoinPricesIndexRequest), HttpStatus.OK);

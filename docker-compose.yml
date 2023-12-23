@@ -1,21 +1,42 @@
 version: "3.8"
 
 services:
+
   configserver:
     image: krushnaoza/configserver:latest
     ports:
-      - "8072:8072"
+      - "8071:8071"
     networks:
-      - bitcoinnetwork
+      - bpinetwork
 
-  bitcoin-historic-price-provider:
+  eurekaserver:
+    image: krushnaoza/eurekaserver:latest
+    ports:
+      - "8070:8070"
+    networks:
+      - bpinetwork
+    depends_on:
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+    environment:
+      SPRING_APPLICATION_NAME: eurekaserver
+      SPRING_PROFILES_ACTIVE: default
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+
+  bitcoinhistoricpriceprovider:
     image: krushnaoza/bpiservice:latest
     ports:
       - "8081:8081"
     networks:
-      - bitcoinnetwork
+      - bpinetwork
     depends_on:
       - configserver
+      - eurekaserver
     deploy:
       restart_policy:
         condition: on-failure
@@ -24,7 +45,31 @@ services:
         window: 120s
     environment:
       SPRING_APPLICATION_NAME: bitcoin-historic-price-provider
-      SPRING_CONFIG_IMPORT: configserver:http://configserver:8072/
+      SPRING_PROFILES_ACTIVE: default
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+
+  gatewayserver:
+    image: krushnaoza/gatewayserver:latest
+    ports:
+      - "8073:8073"
+    networks:
+      - bpinetwork
+    depends_on:
+      - configserver
+      - eurekaserver
+      - bitcoinhistoricpriceprovider
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 45s
+        max_attempts: 3
+        window: 180s
+    environment:
+      SPRING_APPLICATION_NAME: gatewayserver
+      SPRING_PROFILES_ACTIVE: default
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8072/eureka/
 
 networks:
-  bitcoinnetwork:
+  bpinetwork:
