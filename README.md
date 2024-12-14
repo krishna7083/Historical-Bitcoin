@@ -70,7 +70,7 @@ The key components of the application are as follows:
 
    ### **Overview**
 
-   The Weather Forecast Provider microservice is responsible for providing weather forecasts for a given city and a number of days ahead. It retrieves forecast data from the OpenWeather API and includes additional conditions and alerts based on certain criteria. The service should be accessible via web browsers or Postman using JavaScript frameworks, HTML, or JSON.
+   The Bitcoin Historic Service Provider microservice is responsible for providing historic bitcoin prices for a provided time range and currency. It retrieves historic data from the BitCoin third party API and includes additional conditions and alerts based on certain criteria. The service should be accessible via web browsers or Postman using JavaScript frameworks, HTML, or JSON.
 
    ### **Input Parameters**
 
